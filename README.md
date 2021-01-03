@@ -33,10 +33,10 @@ Camping catalog microservice query and mutation examples:
 
 ```
 query something{
-  logs {
-    "camping-test-ms"
-    "Post method was executed."
-  }
+ logs {
+   microservice
+   message
+ }
 }
 
 mutation addLog{
