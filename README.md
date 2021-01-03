@@ -1,4 +1,4 @@
-# camping catalog ms
+# Camping Catalog micorservice
 
 A microservice for storing camping actions.
 
@@ -12,7 +12,7 @@ Table of Contents
 ## Purpose
 
 The repository implements the recording of camping actions. The microservice is API done using [GraphQL](https://graphql.org/), which connects on [InfluxDB](https://www.influxdata.com/) 
-time series base.
+time-series database.
 
 
 ## Environment variables
@@ -32,21 +32,19 @@ environment variables when running with Docker.
 Camping catalog microservice query and mutation examples:
 
 ```
-query = 
-     query something{
-       logs {
-         "camping-test-ms"
-         "Post method was executed."
-       }
-     }
+query something{
+  logs {
+    "camping-test-ms"
+    "Post method was executed."
+  }
+}
 
- mutation = 
-     mutation addLog{
-       createLog(microservice:"camping-test-ms", message:"test") {
-           log {
-             "camping-test-ms"
-             "Post method was executed."
-           }
-       }
-     } 
+mutation addLog{
+  createLog(microservice:"camping-test-ms", message:"test") {
+      log {
+        "camping-test-ms"
+        "Post method was executed."
+      }
+  }
+} 
 ```
