@@ -1,4 +1,4 @@
-# Camping Catalog micorservice
+# Camping Catalog microservice
 
 A microservice for storing camping actions.
 
