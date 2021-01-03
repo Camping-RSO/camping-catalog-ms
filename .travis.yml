@@ -1,0 +1,22 @@
+sudo: required
+services:
+- docker
+language: java
+dist: bionic
+jdk:
+- openjdk14
+cache:
+  directories:
+  - "$HOME/.m2"
+env:
+  global:
+  - DOCKER_IMAGE=campingrso/camping-catalog-ms:1.0.0-SNAPSHOT-$TRAVIS_JOB_NUMBER
+  - DOCKER_IMAGE_LATEST=campingrso/camping-catalog-ms:latest
+  - secure: GL3z2ymTtmDzO9/bu9O+7TvXISUe7AAqZupe/Lfm1YYE11rPOvWYWvn4YZ/4sXcnpswAlKMcj/NEhOJ8o1OBWbClaBqwpvQeJhuVamgOGQLd2t1or1qWtZcFqvcCjdUHykKhjwpVOSiDvimS2ApKSFrjPaYb+QK/Gsnl2Uak4PDTB04fUT2hHntQ2QurOHrLEUGUgmqbXfSfTWaMMClW743iM82pe8uNqKOgbLEEyTqgcxv6NxtkBKEjWcBCUooxmXVK1vHVDopNhzQFZzTZGxXqHxhR5Hlgh+jglodZrDv0Ls2htRMPc59FJUthyvpxnzoQSCKATu+9CBozJZQjQf0huHGc8+4d387mZ12NwqU4W07ueeQZbq8J3/NteeWk18Wu+3sOfJnzB8kbEJstLLUN8eQ4hiW3RL8h3Y3linPOpDtpkWIiEvsyYBSy4S9Mn2tTkAMjlIGDz+cnpqVbTB5VtLPnGsn4DnboEifOQQhJv7TLd8cc5TTj4z2VsIDVie3nij+SoXhH6DMMt/sPdsK0L5Jhp3Y8758sl/t1iB3hXiBfWtytbVIIrOpWwv8qhj7N9cfbq4zH3tD8abJMTGg9JREY0rnP2yjsrDp0jD5zq2dckcv3iWt06GQZqnSXl1pQ1wi4GNLu+yvVvaYr8LKOQxrueC0XeoSschjfgY0=
+  - secure: M87fgkSjtze/b6PjY2/Ic+ofXecJhpQv4Aq6kW+u+KDbu8jD8e2oDfI3751YhIZW8rLB4iIHuMT4DoXxtAEwdkR2AtdkFgwjDTkFOxAgK3IAh0+slVDpOVWwUtzaCZAPAoQ+UUG5zrlaOmxQkt5GgoU6rwBPFkQJN3U8+0CBvEQzrcUrG1X2quKcdtXWcIqiEX8NTwyA7G/69j7zLq2qnqKspSbjk+bD74yDu266mbhyW8LkcVepfrMrRMJD5lS6oLpEP9GiWtIt7CDsCqOv9Ycqbaekwt9M7BH6IMr2q/AvubO6QH5UfL2uWlWL5iuSTx5dE8pVZj9LlEnNYwRbt1n+2iUwMO0kpbe34A6rAAuvUi7T8z/gc08qe4G9rxAF/wyV6pBUH9oiU6nkPYnaWoHWL+FW70LhByGXasMPKDqJmEAai1XXkd31bWbbgL2FMYdfZFPxT/y+PBiE43ElLbjkDUkmF9PAFGKmVxzh7lmSzlAPU0si324NAdTdzh96fSIMwCRdm62U0gGHQQRq1hhTb3N+wcYXpnBHfCoyUuZ6YQ8U+zZGEbGpVBpfJ5PO9XckalsJuI2fzxQyPvaIComD2wRDkCCBrPATFABg5URPjQ4eFiMQv5LwDUi+v03z3zRx+EVxfl2zcVNHStDC4QXiaWHjqviJSC3iVDNn9GY=
+script:
+- mvn clean package -U
+- docker build -t "$DOCKER_IMAGE" -t "$DOCKER_IMAGE_LATEST" .
+after_success:
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker push "$DOCKER_IMAGE"
