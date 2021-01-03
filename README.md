@@ -42,9 +42,9 @@ query something{
 mutation addLog{
   createLog(microservice:"camping-test-ms", message:"test") {
       log {
-        "camping-test-ms"
-        "Post method was executed."
+        microservice
+        message
       }
   }
-} 
+}
 ```
